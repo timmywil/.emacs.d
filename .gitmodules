@@ -10,3 +10,6 @@
 [submodule "src/auctex"]
 	path = src/auctex
 	url = git://github.com/eschulte/auctex.git
+[submodule "django-mode"]
+	path = django-mode
+	url = git://github.com/myfreeweb/django-mode.git
