@@ -4093,7 +4093,7 @@ Use multiple times to bind different COMMANDs to the same KEY."
 ;;; snippets for html-mode
 (yas/define-snippets 'html-mode
 		     '(("body" "<body$1>\n  $0\n</body>" "<body>...</body>" nil nil nil nil nil)
-		       ("br" "<br />" "<br />" nil nil nil nil nil)
+		       ("br" "<br>" "<br>" nil nil nil nil nil)
 		       ("code" "<code>\n  $0\n</code>" "<code>...</code>" nil nil nil nil nil)
 		       ("code" "<code class=\"$1\">\n  $0\n</code>" "<code class=\"...\">...</code>" nil nil nil nil nil)
 		       ("dd" "<dd>$1</dd>" "<dd> ... </dd>" nil "list" nil nil nil)
@@ -4122,8 +4122,8 @@ Use multiple times to bind different COMMANDs to the same KEY."
 		       ("href" "<a href=\"$1\">$2</a>" "<a href=\"...\">...</a>" nil nil nil nil nil)
 		       ("html" "<html>\n  $0\n</html>\n" "<html>...</html>" nil nil nil nil nil)
 		       ("html" "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"${1:en}\" lang=\"${2:en}\">\n  $0\n</html>\n" "<html xmlns=\"...\">...</html>" nil nil nil nil nil)
-		       ("img" "<img src=\"$1\" class=\"$2\" alt=\"$3\" />" "<img src=\"...\" class=\"...\" alt=\"...\" />" nil nil nil nil nil)
-		       ("input" "<input type=\"$1\" name=\"$2\" value=\"$3\" />" "<input ... />" nil nil nil nil nil)
+		       ("img" "<img src=\"$1\" class=\"$2\" alt=\"$3\">" "<img src=\"...\" class=\"...\" alt=\"...\">" nil nil nil nil nil)
+		       ("input" "<input type=\"$1\" name=\"$2\" value=\"$3\">" "<input ... >" nil nil nil nil nil)
 		       ("li" "<li>$1</li>" "<li>...</li>" nil "list" nil nil nil)
 		       ("li" "<li class=\"$1\">$2</li>" "<li class=\"...\">...</li>" nil "list" nil nil nil)
 		       ("link" "<link rel=\"${1:stylesheet}\" href=\"${2:url}\" type=\"${3:text/css}\" media=\"${4:screen}\" />" "<link stylesheet=\"...\" />" nil nil nil nil nil)
