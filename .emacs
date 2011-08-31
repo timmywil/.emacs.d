@@ -40,14 +40,13 @@
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
+;; Autocomplete
+;; (require 'auto-complete-config)
+;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/ac-dict")
+;; (ac-config-default)
+
 ;; Add .emacs.d to load path for extra modes
 (add-to-list 'load-path "~/.emacs.d/plugins")
-(require 'yasnippet-bundle)
-
-;; Autocomplete
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/ac-dict")
-(ac-config-default)
 
 ;;; Modes
 
@@ -70,7 +69,21 @@
 	     (setq indent-tabs-mode nil)
 	     (define-key haml-mode-map "\C-m" 'newline-and-indent)))
 
+;; Markdown Mode
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
+(autoload 'markdown-mode "markdown-mode" "Markdown!" t)
+
+;; HTML Helper Mode
+(add-to-list 'auto-mode-alist '("\\.html$" . html-helper-mode))
+(autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
+(add-hook 'html-helper-load-hook '(lambda () (require 'html-font)))
+(setq html-helper-never-indent t)
+
 ;;; End Modes
+
+;; YASnippets
+(require 'yasnippet-bundle)
 
 ;; Set default tabs
 (global-set-key (kbd "TAB") 'indent-relative-maybe)
