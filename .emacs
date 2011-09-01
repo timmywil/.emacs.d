@@ -16,8 +16,7 @@
 ;; GOTO Line command
 (global-set-key "\M-g" `goto-line)
 
-;; Beginning of line text
-(global-set-key (kbd "C-M-j") 'beginning-of-line-text)
+;; M-m is beginning-of-line-text
 
 ;; Align equal signs
 (global-set-key (kbd "C-=") 'align-regexp)
@@ -40,19 +39,20 @@
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-;; Autocomplete
-;; (require 'auto-complete-config)
-;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/ac-dict")
-;; (ac-config-default)
-
 ;; Add .emacs.d to load path for extra modes
 (add-to-list 'load-path "~/.emacs.d/plugins")
+
+;; Autocomplete
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/ac-dict")
+(ac-config-default)
 
 ;;; Modes
 
 ;; Javascript Mode
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (autoload 'js2-mode "js2" nil t)
+(setq js2-mode-escape-quotes nil)
 
 ;; CSS Mode
 ;; C-c C-u => css-insert-url
@@ -75,15 +75,18 @@
 (autoload 'markdown-mode "markdown-mode" "Markdown!" t)
 
 ;; HTML Helper Mode
-(add-to-list 'auto-mode-alist '("\\.html$" . html-helper-mode))
 (autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
 (add-hook 'html-helper-load-hook '(lambda () (require 'html-font)))
-(setq html-helper-never-indent t)
+(setq html-helper-never-indent t)e
 
 ;;; End Modes
 
 ;; YASnippets
 (require 'yasnippet-bundle)
+
+;; Load development snippets
+(setq yas/root-directory "~/.emacs.d/plugins/mysnippets/")
+(yas/load-directory yas/root-directory)
 
 ;; Set default tabs
 (global-set-key (kbd "TAB") 'indent-relative-maybe)
@@ -303,7 +306,7 @@
   ;; If there is more than one, they won't work right.
  '(save-place t nil (saveplace))
  '(show-paren-mode t)
- '(text-mode-hook (quote (turn-on-auto-fill text-mode-hook-identify)))
+ '(text-mode-hook (quote (text-mode-hook-identify)))
  '(tool-bar-mode nil))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
