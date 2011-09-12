@@ -5,7 +5,7 @@
 	  `((".*" ,temporary-file-directory t)))
 
 ;; Save desktop sessions when closing
-(desktop-save-mode 1)
+;; (desktop-save-mode 1)
 
 ;; Line numbers
 (global-linum-mode 1)
@@ -39,7 +39,7 @@
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-;; Add .emacs.d to load path for extra modes
+;; Add .emacs.d/plugins to load path for extra modes
 (add-to-list 'load-path "~/.emacs.d/plugins")
 
 ;; Autocomplete
@@ -83,6 +83,11 @@
 
 ;; YASnippets
 (require 'yasnippet-bundle)
+(require 'dropdown-list)
+(setq yas/prompt-functions '(yas/dropdown-prompt
+							 yas/ido-prompt
+							 yas/completing-prompt))
+
 
 ;; Load development snippets
 (setq yas/root-directory "~/.emacs.d/plugins/mysnippets/")
@@ -305,6 +310,8 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(cua-mode t nil (cua-base))
+ '(ecb-auto-update-methods-after-save t)
+ '(ecb-expand-methods-switch-off-auto-expand t)
  '(save-place t nil (saveplace))
  '(show-paren-mode t)
  '(text-mode-hook (quote (text-mode-hook-identify)))
