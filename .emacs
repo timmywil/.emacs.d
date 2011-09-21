@@ -4,8 +4,11 @@
 (setq auto-save-file-name-transforms
 	  `((".*" ,temporary-file-directory t)))
 
+;; Open files from the finder in an existing frame
+(setq-default ns-pop-up-frames nil)
+
 ;; Save desktop sessions when closing
-;; (desktop-save-mode 1)
+(desktop-save-mode 1)
 
 ;; Line numbers
 (global-linum-mode 1)
@@ -43,9 +46,31 @@
 (add-to-list 'load-path "~/.emacs.d/plugins")
 
 ;; Autocomplete
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/ac-dict")
-(ac-config-default)
+;; (require 'auto-complete-config)
+;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/ac-dict")
+;; (ac-config-default)
+;; (define-key ac-complete-mode-map [(shift tab)] 'ac-complete)
+;; (define-key ac-complete-mode-map "\t" nil)
+;; (define-key ac-complete-mode-map "\r" nil)
+
+(add-to-list 'load-path "~/.emacs.d/vendor/textmate.el")
+(require 'textmate)
+(add-to-list 'load-path "~/.emacs.d/vendor")
+(require 'peepopen)
+(textmate-mode)
+
+;; tabbar
+(add-to-list 'load-path "~/.emacs.d/plugins/tabbar")
+(require 'tabbar)
+(tabbar-mode 1)
+(global-set-key (kbd "s-{") 'tabbar-backward)
+(global-set-key (kbd "s-}") 'tabbar-forward)
+(global-set-key (kbd "s-[") 'tabbar-backward-group)
+(global-set-key (kbd "s-]") 'tabbar-forward-group)
+
+;; Enable overwrite mode
+(overwrite-mode 1)
+
 
 ;;; Modes
 
@@ -73,6 +98,12 @@
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 (autoload 'markdown-mode "markdown-mode" "Markdown!" t)
+
+;; Tabs in HTML Mode
+(add-hook 'html-mode-hook
+		  (lambda()
+			(setq sgml-basic-offset 4)
+			(setq indent-tabs-mode t)))
 
 ;; HTML Helper Mode
 (autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
@@ -137,6 +168,7 @@
 
 	 (minibuffer-prompt ((t (:foreground "#329efb" :bold t))))
 	 (font-lock-warning-face ((t (:foreground "Red" :bold t))))
+	 (yas/field-highlight-face ((t (:background "DimGrey"))))
 	)))
 (provide 'color-theme-timmy)
 
@@ -309,7 +341,6 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(cua-mode t nil (cua-base))
  '(ecb-auto-update-methods-after-save t)
  '(ecb-expand-methods-switch-off-auto-expand t)
  '(save-place t nil (saveplace))
@@ -322,3 +353,4 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  )
+(put 'scroll-left 'disabled nil)
