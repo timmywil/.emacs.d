@@ -2,7 +2,13 @@
 # name: arrow
 # expand-env: ((yas/indent-line 'fixed))
 # --
-.arrow-left, .arrow-right { position: absolute; right: 12px; top: 18px; width: 0; height: 0; border: 6px solid ${1:#68686a}; border-top: 0 none; }
-.arrow-left { right: 18px; border-right: 0 none; border-left-color: transparent; }
+.arrow-wrap { position: relative; }
+.arrow-left, .arrow-right, .arrow-top, .arrow-bottom { position: absolute; top: 0px; width: 0; height: 0; border: 6px solid ${1:#636363}; border-top: 0 none; }
+.arrow-top { border-left-color: transparent; border-right: 0 none; }
+.arrow-bottom { top: 6px; border-bottom-color: transparent; border-left: 0 none; }
+.arrow-left { left: 0px; border-right: 0 none; border-left-color: transparent; }
+.arrow-right { left: 6px; }
 .arrow-right { border-left: 0 none; border-right-color: transparent; }
-.down .arrow-left, .down .arrow-right { border-bottom: 0 none; border-top: 6px solid $1; }$0
+.direct-down .arrow-left, .direct-down .arrow-right { border-bottom: 0 none; border-top: 6px solid $1; }
+.direct-right .arrow-top { border-right: 6px solid transparent; border-left: 0 none; }
+.direct-right .arrow-bottom { border-right: 0 none; border-left: 6px solid $1; }$0
