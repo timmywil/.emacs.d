@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: require
+# expand-env: ((yas/indent-line 'fixed))
+# --
+%script{:src => "/js/libs/require.min.js", :type => 'text/javascript', :charset => 'utf-8'}
+:javascript
+	require({
+	  paths: {
+		"jquery": "http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min"
+	  },
+	  priority: [ "jquery" ],
+	  baseUrl: "/js",
+	  urlArgs: "v=1"
+	}, [ "${1:script}" ]);
