@@ -8,18 +8,17 @@
 (setq-default ns-pop-up-frames nil)
 
 ;; Save desktop sessions when closing
-(desktop-save-mode 1)
+(desktop-save-mode t)
 
 ;; Line numbers
-(global-linum-mode 1)
+(global-linum-mode t)
+(column-number-mode t)
 
 ;; More colors
-(global-font-lock-mode 1)
+(global-font-lock-mode t)
 
 ;; GOTO Line command
 (global-set-key "\M-g" `goto-line)
-
-;; M-m is beginning-of-line-text
 
 ;; Align equal signs
 (global-set-key (kbd "C-=") 'align-regexp)
@@ -36,7 +35,7 @@
 (setq transient-mark-mode t)
 (setq mac-option-modifier 'meta)
 
-;; recentf stuff
+;; Open recent file
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
@@ -46,13 +45,14 @@
 (add-to-list 'load-path "~/.emacs.d/plugins")
 
 ;; Autocomplete
-;; (require 'auto-complete-config)
-;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/ac-dict")
-;; (ac-config-default)
-;; (define-key ac-complete-mode-map [(shift tab)] 'ac-complete)
-;; (define-key ac-complete-mode-map "\t" nil)
-;; (define-key ac-complete-mode-map "\r" nil)
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/ac-dict")
+(ac-config-default)
+(define-key ac-complete-mode-map [(shift tab)] 'ac-complete)
+(define-key ac-complete-mode-map "\t" nil)
+(define-key ac-complete-mode-map "\r" nil)
 
+;; Shift+T file browser
 (add-to-list 'load-path "~/.emacs.d/vendor/textmate.el")
 (require 'textmate)
 (add-to-list 'load-path "~/.emacs.d/vendor")
@@ -67,9 +67,19 @@
 (global-set-key (kbd "s-}") 'tabbar-forward)
 (global-set-key (kbd "s-[") 'tabbar-backward-group)
 (global-set-key (kbd "s-]") 'tabbar-forward-group)
+;; Only show non-scratch buffers
+(setq tabbar-buffer-groups-function
+           (lambda ()
+             (list "All Buffers")))
+ (setq tabbar-buffer-list-function
+     	(lambda ()
+     	  (remove-if
+     	   (lambda(buffer)
+     	     (find (aref (buffer-name buffer) 0) " *"))
+     	   (buffer-list))))
 
 ;; Enable overwrite mode
-(overwrite-mode 1)
+;; (overwrite-mode 1)
 
 
 ;;; Modes
@@ -90,9 +100,9 @@
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 (autoload 'haml-mode "haml-mode" nil t)
 (add-hook 'haml-mode-hook
-	  '(lambda ()
-	     (setq indent-tabs-mode nil)
-	     (define-key haml-mode-map "\C-m" 'newline-and-indent)))
+		  '(lambda ()
+			 (setq haml-indent-offset 4)
+			 (setq indent-tabs-mode t)))
 
 ;; Markdown Mode
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
@@ -101,7 +111,7 @@
 
 ;; Tabs in HTML Mode
 (add-hook 'html-mode-hook
-		  (lambda()
+		  (lambda ()
 			(setq sgml-basic-offset 4)
 			(setq indent-tabs-mode t)))
 
