@@ -118,7 +118,12 @@
 ;; HTML Helper Mode
 (autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
 (add-hook 'html-helper-load-hook '(lambda () (require 'html-font)))
-(setq html-helper-never-indent t)e
+(setq html-helper-never-indent t)
+
+;; PHP Mode
+(autoload 'php-mode "php-mode" "Major mode for editing php code." t)
+(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+(add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
 
 ;;; End Modes
 
