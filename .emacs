@@ -53,11 +53,11 @@
 (define-key ac-complete-mode-map "\r" nil)
 
 ;; Shift+T file browser
-(add-to-list 'load-path "~/.emacs.d/vendor/textmate.el")
-(require 'textmate)
-(add-to-list 'load-path "~/.emacs.d/vendor")
-(require 'peepopen)
-(textmate-mode)
+;; (add-to-list 'load-path "~/.emacs.d/vendor/textmate.el")
+;; (require 'textmate)
+;; (add-to-list 'load-path "~/.emacs.d/vendor")
+;; (require 'peepopen)
+;; (textmate-mode)
 
 ;; tabbar
 (add-to-list 'load-path "~/.emacs.d/plugins/tabbar")
@@ -101,19 +101,27 @@
 (autoload 'haml-mode "haml-mode" nil t)
 (add-hook 'haml-mode-hook
 		  '(lambda ()
-			 (setq haml-indent-offset 4)
-			 (setq indent-tabs-mode t)))
+			 (setq haml-indent-offset 2)))
 
 ;; Markdown Mode
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 (autoload 'markdown-mode "markdown-mode" "Markdown!" t)
 
+;; Tidy for HTML Mode
+(autoload 'tidy-buffer "tidy" "Run Tidy HTML parser on current buffer" t)
+(autoload 'tidy-parse-config-file "tidy" "Parse the `tidy-config-file'" t)
+(autoload 'tidy-save-settings "tidy" "Save settings to `tidy-config-file'" t)
+(autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
+
 ;; Tabs in HTML Mode
 (add-hook 'html-mode-hook
 		  (lambda ()
 			(setq sgml-basic-offset 4)
-			(setq indent-tabs-mode t)))
+			(setq indent-tabs-mode t)
+			(tidy-build-menu html-mode-map)
+			(local-set-key (kbd "C-x t") 'tidy-buffer)
+			(setq sgml-validate-command "tidy")))
 
 ;; HTML Helper Mode
 (autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
