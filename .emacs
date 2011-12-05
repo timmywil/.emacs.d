@@ -44,6 +44,18 @@
 ;; Add .emacs.d/plugins to load path for extra modes
 (add-to-list 'load-path "~/.emacs.d/plugins")
 
+;; Git commands
+;; (require 'git-commands)
+
+
+;; Package manager (marmalade spreadable elisp)
+(require 'package)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
+
+
+;;; Modes
+
 ;; Autocomplete
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/ac-dict")
@@ -81,13 +93,29 @@
 ;; Enable overwrite mode
 ;; (overwrite-mode 1)
 
+;; Add node to environment
+(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+(setq exec-path
+      '(
+    "/usr/local/bin"
+    "/usr/bin"
+    ))
 
-;;; Modes
+;; Add nodepath to environment for node modules
+(setenv "NODE_PATH" "/usr/local/lib/node:/usr/local/lib/node_modules")
 
-;; Javascript Mode
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(autoload 'js2-mode "js2" nil t)
-(setq js2-mode-escape-quotes nil)
+;; Javascript (js2)  Mode
+;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+;; (setq js2-mode-escape-quotes nil)
+;; (autoload 'js2-mode "js2" nil t)
+
+;; JSHint Mode
+(add-to-list 'load-path "~/.emacs.d/vendor/jshint-mode")
+(require 'flymake-jshint)
+(add-hook 'js-mode-hook
+    (lambda () (flymake-mode t)))
+(setq jshint-configuration-path "~/.jshintrc")
+
 
 ;; CSS Mode
 ;; C-c C-u => css-insert-url
@@ -132,6 +160,10 @@
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
+
+;; ibuffer Mode
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(autoload 'ibuffer "ibuffer" "List buffers." t)
 
 ;;; End Modes
 
@@ -366,6 +398,7 @@
   ;; If there is more than one, they won't work right.
  '(ecb-auto-update-methods-after-save t)
  '(ecb-expand-methods-switch-off-auto-expand t)
+ '(jabber-account-list (quote (("timmywillisn@gmail.com" (:password . "qa|<S;)[N6") (:network-server . "talk.google.com") (:port . 5223) (:connection-type . ssl)) ("timmy@quickcue.com" (:password . "qa|<S;)[N6") (:network-server . "talk.google.com") (:port . 5223) (:connection-type . ssl)))))
  '(save-place t nil (saveplace))
  '(show-paren-mode t)
  '(text-mode-hook (quote (text-mode-hook-identify)))
