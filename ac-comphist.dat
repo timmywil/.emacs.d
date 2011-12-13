@@ -1,21 +1,14 @@
-((("js" .
-   [1 0])
-  ("js2" .
+((("false" .
+   [1 0 0 0 0])
+  ("true" .
+   [2 0 0 0])
+  ("mode" .
+   [1 0 0 0])
+  ("fields" .
+   [1 0 0 0 0 0])
+  ("log" .
    [1 0 0])
-  ("javascript" .
-   [2 0 0 0 0 0 0 0 0 0])
-  ("fafafa" .
-   [2 0 0 0 0 0])
-  ("li" .
-   [2 0])
-  ("selected" .
-   [4 0 0 0 0 0 0 0])
-  ("selection" .
-   [2 0 0 0 0 0 0 0 0])
-  ("column-number-mode" .
-   [0 0 0 0 0 0 1 0 0 0 ...])
-  ("current-buffer" .
-   [1 0 0 0 0 0 0 0 0 0 ...])
-  ("default-directory" .
-   [0 0 0 0 0 0 0 0 0 0 ...])
-  ...))
+  ("console" .
+   [1 0 0 0 0 0 0])
+  ("color-theme-timmy-light" .
+   [2 0 0 0 0 0 0 0 0 0 0 0 \.\.\.])))

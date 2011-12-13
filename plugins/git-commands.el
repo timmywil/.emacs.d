@@ -17,7 +17,7 @@
   `(defun ,name (&optional prefix)
      (interactive "P")
      (let ((command ,cmd)
-           (bufname (concat "*" ,cmd "*"))
+           (bufname (concat "*", cmd "*"))
            (dir default-directory))
        (if (or prefix ,default)
            (setq command
@@ -28,9 +28,9 @@
            (shell-command command bufname)
          (shell-command (concat command "&") bufname))
        (with-buffer (get-buffer bufname)
-         (progn
-           (cd dir)
-           (if ,hook (funcall ,hook)))))))
+					(progn
+					  (cd dir)
+					  (if ,hook (funcall ,hook)))))))
 
 (progn
   (define-shell-command git-status "git status")
@@ -94,9 +94,9 @@
          (dir default-directory))
     (shell-command cmd bufname)
     (with-buffer (get-buffer bufname)
-      (progn
-        (cd dir)
-        (diff-mode)))))
+				 (progn
+				   (cd dir)
+				   (diff-mode)))))
 
 (defvar git-commands-map)
 

@@ -1,17 +1,17 @@
-/* HTTP interface to JSHint.
-
-   curl --form source="<path/to/my.js" --form=filename="my.js" http://127.0.0.1:3003/jshint
-
-   TODO:
-   parse incoming source files for embedded jshint options
-   support file uploads?
-   speed up
-*/
+/**
+ * HTTP interface to JSHint
+ * curl --form source="<path/to/my.js" --form=filename="my.js" http://127.0.0.1:3003/jshint
+ *
+ * TODO:
+ *   parse incoming source files for embedded jshint options
+ *   support file uploads?
+ *   speed up
+ */
 
 var http = require('http'),
-formidable = require('formidable'),
-JSLINT = require('./jslint'),
-JSHINT = require('./jshint');
+	formidable = require('formidable'),
+	JSLINT = require('./jslint'),
+	JSHINT = require('./jshint');
 
 var hinters = {
 	jshint: JSHINT.JSHINT,
@@ -43,22 +43,61 @@ function outputErrors(errors) {
 }
 
 function lintify(mode, sourcedata, filename) {
-	var passed = hinters[mode](sourcedata, {});
+	var passed = hinters[mode](sourcedata, {
+		"predef": [
+			"define",
+			"require",
+			"_gaq",
+			"Modernizr"
+		],
+		"browser": true,
+		"boss": true,
+		"curly": true,
+		"es5": true,
+		// Enforce === and !== in favor of == and !=
+		"eqeqeq": true,
+		// Allow == and != when comparing with null
+		"eqnull": true,
+		// Do not allow use of eval
+		"evil": false,
+		// Expect jQuery environment
+		"jquery": true,
+		"laxbreak": false,
+		// Hoisting, but only in one scope
+		"latedef": false,
+		"maxerr": 100,
+		// Enforce capitalization of constructors
+		"newcap": false,
+		// Do not use arguments.callee or arguments.caller (deprecated in es5)
+		"noarg": true,
+		// Expect node environment
+		"node": true,
+		"noempty": true,
+		// One var statement at the top of each function
+		"onevar": true,
+		"plusplus": false,
+		// Detects globals
+		"undef": true,
+		// Trailing whitespace
+		"trailing": true
+	});
 	return passed ? "js: No problems found in " + filename + "\n"
 		: outputErrors(hinters[mode].errors);
 }
 
 var port = getOpt("--port") || 3003,
-host = getOpt("--host") || "127.0.0.1";
+	host = getOpt("--host") || "127.0.0.1";
 
 http.createServer(function(req, res) {
 
 	if (req.url === '/check' && req.method.toUpperCase() === 'POST') {
 		var form = new formidable.IncomingForm();
 		form.parse(req, function(err, fields, files) {
-			var mode = (fields.mode && fields.mode == "jslint") ? "jslint" : "jshint";
+			var results,
+				mode = (fields.mode && fields.mode === "jslint") ? "jslint" : "jshint";
+
 			console.log('Applying \'' + mode + '\' to: ' + (fields.filename || 'anonymous'));
-			var results = lintify(mode, fields.source, fields.filename);
+			results = lintify(mode, fields.source, fields.filename);
 			console.log( results );
 			res.writeHead(200, {'Content-Type': 'text/plain'});
 			res.end(results);

@@ -35,23 +35,35 @@
 (setq transient-mark-mode t)
 (setq mac-option-modifier 'meta)
 
+;; Add .emacs.d/plugins to load path for extra modes
+(add-to-list 'load-path "~/.emacs.d/plugins")
+
+;; Custom utilities for emacs lisp
+(require 'utility)
+
+;; Show whitespace
+(require 'whitespace)
+
 ;; Open recent file
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-;; Add .emacs.d/plugins to load path for extra modes
-(add-to-list 'load-path "~/.emacs.d/plugins")
-
 ;; Git commands
-;; (require 'git-commands)
-
+(require 'git-commands)
 
 ;; Package manager (marmalade spreadable elisp)
 (require 'package)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
+
+;; Org mode
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
 
 
 ;;; Modes
@@ -83,12 +95,12 @@
 (setq tabbar-buffer-groups-function
            (lambda ()
              (list "All Buffers")))
- (setq tabbar-buffer-list-function
-     	(lambda ()
-     	  (remove-if
-     	   (lambda(buffer)
-     	     (find (aref (buffer-name buffer) 0) " *"))
-     	   (buffer-list))))
+(setq tabbar-buffer-list-function
+    	(lambda ()
+		    	  (remove-if
+    			     (lambda(buffer)
+    	     		 (find (aref (buffer-name buffer) 0) " *"))
+    	   			 (buffer-list))))
 
 ;; Enable overwrite mode
 ;; (overwrite-mode 1)
@@ -114,7 +126,7 @@
 (require 'flymake-jshint)
 (add-hook 'js-mode-hook
     (lambda () (flymake-mode t)))
-(setq jshint-configuration-path "~/.jshintrc")
+(setq jshint-configuration-path "~/.emacs.d/vendor/jshint-mode/jshint-config.js")
 
 
 ;; CSS Mode
@@ -145,8 +157,8 @@
 ;; Tabs in HTML Mode
 (add-hook 'html-mode-hook
 		  (lambda ()
-			(setq sgml-basic-offset 4)
-			(setq indent-tabs-mode t)
+			(setq sgml-basic-offset 2)
+			(setq indent-tabs-mode nil)
 			(tidy-build-menu html-mode-map)
 			(local-set-key (kbd "C-x t") 'tidy-buffer)
 			(setq sgml-validate-command "tidy")))
@@ -192,7 +204,8 @@
 (global-set-key (kbd "C-x C-d") 'delete-region)
 (put 'upcase-region 'disabled nil)
 
-;; Color theme
+;; Color themes
+;; (dark)
 (defun color-theme-timmy()
   (interactive)
   (color-theme-install
@@ -212,7 +225,7 @@
 	 (font-lock-keyword-face ((t (:foreground "#ff94d4"))))
 	 (font-lock-string-face ((t (:foreground "#f09f70"))))
 	 (font-lock-type-face ((t (:foreground "#50a2e7"))))
-	 (font-lock-variable-name-face ((t (:foreground "#d287f7"))))
+	 (font-lock-variable-name-face ((t (:foreground "#07909a"))))
 
      (font-lock-constant-face ((t (:foreground "salmon"))))
      (font-lock-doc-face ((t (:foreground "orange"))))
@@ -227,12 +240,38 @@
 	)))
 (provide 'color-theme-timmy)
 
+;; (light)
+(defun color-theme-timmy-light ()
+  (interactive)
+  (color-theme-install
+   '(color-theme-timmy-light
+      ((background-color . "#ffffff")
+      (background-mode . light)
+      (border-color . "#7a7a7a")
+      (cursor-color . "#191919")
+      (foreground-color . "#000000")
+      (mouse-color . "black"))
+     (fringe ((t (:background "#7a7a7a"))))
+     (mode-line ((t (:foreground "#000000" :background "#cccccc"))))
+     (region ((t (:background "#c0c0c0"))))
+     (font-lock-builtin-face ((t (:foreground "#994500"))))
+     (font-lock-comment-face ((t (:foreground "#007400"))))
+     (font-lock-function-name-face ((t (:foreground "#0037c8"))))
+     (font-lock-keyword-face ((t (:foreground "#aa0d91"))))
+     (font-lock-string-face ((t (:foreground "#c41a16"))))
+     (font-lock-type-face ((t (:foreground"#0000ee"))))
+     (font-lock-variable-name-face ((t (:foreground "#4e8087"))))
+     (minibuffer-prompt ((t (:foreground "#2533da" :bold t))))
+     (font-lock-warning-face ((t (:foreground "Red" :bold t))))
+     )))
+(provide 'color-theme-timmy-light)
+
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0/")
 (require 'color-theme)
 (eval-after-load "color-theme"
 	'(progn
 		(color-theme-initialize)
-		(color-theme-timmy)))
+		(color-theme-timmy-light)))
 
 
 
@@ -240,7 +279,7 @@
 
 ;;; lorem-ipsum.el --- Insert dummy pseudo Latin text.
 ;; Author & Maintainer: Jean-Philippe Theberge (jphil21@sourceforge.net)
-;; Special Thanks: The emacswiki users, the #emacs@freenode.net citizens 
+;; Special Thanks: The emacswiki users, the #emacs@freenode.net citizens
 ;;                 and Marcus Tullius Cicero
 ;;
 ;; version :
@@ -357,8 +396,8 @@
   (if (not num)(setq num 1))
   (if (> num 0)
       (progn
-	(insert (concat 
-		 (mapconcat 'identity 
+	(insert (concat
+		 (mapconcat 'identity
 			    (nth (if (interactive-p) 0 (random (length Lorem-ipsum-text)))
 				 Lorem-ipsum-text) " ")
 		 Lorem-ipsum-paragraph-separator))
@@ -369,11 +408,11 @@
   (if (not num)(setq num 1))
   (if (> num 0)
       (progn
-	(let ((para 
+	(let ((para
 	       (nth (if (interactive-p) 0 (random (length Lorem-ipsum-text))) Lorem-ipsum-text)))
 	  (insert (concat (nth (if (interactive-p) 0 (random (length para))) para) Lorem-ipsum-sentence-separator)))
 	(Lorem-ipsum-insert-sentences (- num 1)))))
-	  
+
 (defun Lorem-ipsum-insert-list (&optional num)
   (interactive "p")
   (if (not num)(setq num 1))
@@ -381,8 +420,8 @@
       (progn
 	(if (interactive-p) (insert Lorem-ipsum-list-beginning))
 	(let ((para (nth (if (interactive-p) 0 (random (length Lorem-ipsum-text))) Lorem-ipsum-text)))
-	  (insert (concat Lorem-ipsum-list-bullet 
-			  (nth (if (interactive-p) 0 (random (length para))) para) 
+	  (insert (concat Lorem-ipsum-list-bullet
+			  (nth (if (interactive-p) 0 (random (length para))) para)
 			  Lorem-ipsum-list-item-end)))
 	(Lorem-ipsum-insert-list (- num 1)))
     (insert Lorem-ipsum-list-end)))
@@ -398,11 +437,17 @@
   ;; If there is more than one, they won't work right.
  '(ecb-auto-update-methods-after-save t)
  '(ecb-expand-methods-switch-off-auto-expand t)
+ '(face-font-family-alternatives (quote (("Menlo" "Monospace" "courier" "fixed") ("courier" "CMU Typewriter Text" "fixed") ("Sans Serif" "helv" "helvetica" "arial" "fixed") ("helv" "helvetica" "arial" "fixed"))))
  '(jabber-account-list (quote (("timmywillisn@gmail.com" (:password . "qa|<S;)[N6") (:network-server . "talk.google.com") (:port . 5223) (:connection-type . ssl)) ("timmy@quickcue.com" (:password . "qa|<S;)[N6") (:network-server . "talk.google.com") (:port . 5223) (:connection-type . ssl)))))
+ '(jabber-chat-buffer-format "*-%n-jabber-chat-*")
+ '(jabber-vcard-avatars-publish nil)
+ '(jabber-vcard-avatars-retrieve nil)
  '(save-place t nil (saveplace))
  '(show-paren-mode t)
+ '(show-trailing-whitespace t)
  '(text-mode-hook (quote (text-mode-hook-identify)))
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(whitespace-space (quote whitespace-space)))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
