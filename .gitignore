@@ -28,3 +28,5 @@ eshell/history
 
 ## org stuff
 .org-id-locations
+
+ac-comphist.dat
