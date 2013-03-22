@@ -76,25 +76,6 @@
 (define-key ac-complete-mode-map "\t" nil)
 (define-key ac-complete-mode-map "\r" nil)
 
-;; ;; tabbar
-;; (add-to-list 'load-path "~/.emacs.d/plugins/tabbar")
-;; (require 'tabbar)
-;; (tabbar-mode 1)
-;; (global-set-key (kbd "s-{") 'tabbar-backward)
-;; (global-set-key (kbd "s-}") 'tabbar-forward)
-;; (global-set-key (kbd "s-[") 'tabbar-backward-group)
-;; (global-set-key (kbd "s-]") 'tabbar-forward-group)
-;; ;; Only show non-scratch buffers
-;; (setq tabbar-buffer-groups-function
-;;            (lambda ()
-;;              (list "All Buffers")))
-;; (setq tabbar-buffer-list-function
-;;     	(lambda ()
-;; 		    	  (remove-if
-;;     			     (lambda(buffer)
-;;     	     		 (find (aref (buffer-name buffer) 0) " *"))
-;;     	   			 (buffer-list))))
-
 ;; Enable overwrite mode
 ;; (overwrite-mode 1)
 
