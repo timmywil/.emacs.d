@@ -4,23 +4,23 @@
   (interactive)
   (color-theme-install
    '(color-theme-timmy
-	 ((background-color . "#111111")
-	 (background-mode . light)
-	 (border-color . "#3b3a3a")
-	 (cursor-color . "#d0cdcd")
-	 (foreground-color . "#fafafa")
-	 (mouse-color . "black"))
-	 (fringe ((t (:background "#3b3a3a"))))
-	 (mode-line ((t (:foreground "#2f2d2d" :background "#919290"))))
-	 (region ((t (:background "#7d7d7d"))))
-	 (font-lock-builtin-face ((t (:foreground "#ff5757"))))
-	 (font-lock-comment-face ((t (:foreground "#9bdf9d"))))
-	 (font-lock-function-name-face ((t (:foreground "#7c9ffe"))))
-	 (font-lock-keyword-face ((t (:foreground "#ff94d4"))))
-	 (font-lock-string-face ((t (:foreground "#f09f70"))))
-	 (font-lock-type-face ((t (:foreground "#50a2e7"))))
-	 (font-lock-variable-name-face ((t (:foreground "#07909a"))))
+     ((background-color . "#111111")
+      (background-mode . light)
+      (border-color . "#3b3a3a")
+      (cursor-color . "#d0cdcd")
+      (foreground-color . "#fafafa")
+      (mouse-color . "black"))
+     (fringe ((t (:background "#3b3a3a"))))
+     (mode-line ((t (:foreground "#2f2d2d" :background "#919290"))))
+     (region ((t (:background "#7d7d7d"))))
 
+     (font-lock-builtin-face ((t (:foreground "#ff5757"))))
+     (font-lock-comment-face ((t (:foreground "#9bdf9d"))))
+     (font-lock-function-name-face ((t (:foreground "#7c9ffe"))))
+     (font-lock-keyword-face ((t (:foreground "#ff94d4"))))
+     (font-lock-string-face ((t (:foreground "#f09f70"))))
+     (font-lock-type-face ((t (:foreground "#50a2e7"))))
+     (font-lock-variable-name-face ((t (:foreground "#07909a"))))
      (font-lock-constant-face ((t (:foreground "salmon"))))
      (font-lock-doc-face ((t (:foreground "orange"))))
      (font-lock-negation-char-face ((t (nil))))
@@ -28,10 +28,17 @@
      (font-lock-regexp-grouping-backslash ((t (:bold t :weight bold))))
      (font-lock-regexp-grouping-construct ((t (:bold t :weight bold))))
 
-	 (minibuffer-prompt ((t (:foreground "#329efb" :bold t))))
-	 (font-lock-warning-face ((t (:foreground "Red" :bold t))))
-	 (yas/field-highlight-face ((t (:background "DimGrey"))))
-	)))
+		 ;; Magit Colors
+     (magit-diff-add ((t (:foreground "green2" :background "#222222"))))
+     (magit-diff-del ((t (:foreground "red2" :background "#222222"))))
+     (magit-diff-file-header ((t (:background "#222222"))))
+		 (magit-diff-hunk-header ((t (:background "#222222"))))
+		 (magit-item-highlight ((t (:background "#222222"))))
+
+     (minibuffer-prompt ((t (:foreground "#329efb" :bold t))))
+     (font-lock-warning-face ((t (:foreground "Red" :bold t))))
+     (yas/field-highlight-face ((t (:background "DimGrey"))))
+     )))
 (provide 'color-theme-timmy)
 
 ;; (light)
@@ -39,7 +46,7 @@
   (interactive)
   (color-theme-install
    '(color-theme-timmy-light
-      ((background-color . "#ffffff")
+		 ((background-color . "#ffffff")
       (background-mode . light)
       (border-color . "#7a7a7a")
       (cursor-color . "#191919")
@@ -64,19 +71,23 @@
 (require 'color-theme)
 (eval-after-load "color-theme"
 	'(progn
-		(color-theme-initialize)
-		(color-theme-timmy)))
+		 (color-theme-initialize)
+		 (color-theme-timmy)))
 
 ;; Place autosaves in one directory
 (setq backup-directory-alist
-	  `((".*" . ,temporary-file-directory)))
+			`((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
-	  `((".*" ,temporary-file-directory t)))
+			`((".*" ,temporary-file-directory t)))
 
 ;; Set default tabs
 (global-set-key (kbd "TAB") 'indent-relative-maybe)
-(setq default-tab-width 4)
-(setq tab-stop-list '(4 8 12 16 20 24))
+(setq default-tab-width 2)
+(setq tab-stop-list '(2 4 6 8 10 12 14 16 18 20 22 24))
+(setq js-indent-level 2)
+
+;; Turn off the emacs bell completely
+(setq ring-bell-function 'ignore)
 
 ;; Paren Matching
 (show-paren-mode 1)
@@ -90,7 +101,7 @@
 (setq-default ns-pop-up-frames nil)
 
 ;; Save desktop sessions when closing
-(desktop-save-mode t)
+;; (desktop-save-mode t)
 
 ;; Line numbers
 (global-linum-mode t)
@@ -135,13 +146,9 @@
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-;; Git commands
-(require 'git-commands)
-
-;; ;; Package manager (marmalade spreadable elisp)
-;; (require 'package)
-;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; (package-initialize)
+;; Magit
+(add-to-list 'load-path "~/.emacs.d/plugins/magit")
+(require 'magit)
 
 ;; Org mode
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
@@ -150,23 +157,28 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
+
 ;;; Modes
 
 ;; Autocomplete
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/ac-dict")
 (ac-config-default)
-(define-key ac-complete-mode-map [("\M-\/")] 'ac-complete)
+(define-key ac-complete-mode-map (kbd "M-/") 'ac-complete)
 (define-key ac-complete-mode-map "\t" nil)
 (define-key ac-complete-mode-map "\r" nil)
 
-;; Set NODE environment vars
-(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+;; For the sake of flymake (copy appropriate bin directories here)
 (setq exec-path
-      '(
-    "/usr/local/bin"
-    "/usr/bin"
-    ))
+			'(
+				"/usr/local/bin"
+				"/usr/bin"
+				"/bin"
+				"/usr/local/git/bin"
+				"/usr/local/share/npm/bin"
+				"/Library/PostgreSQL/9.1/bin"
+				"/Users/timmy/.rbenv/bin"
+				))
 
 ;; Add nodepath to environment for node modules
 (setenv "NODE_PATH" "/usr/local/lib/node:/usr/local/lib/node_modules")
@@ -175,10 +187,10 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/jshint-mode")
 (require 'flymake-jshint)
 (add-hook 'javascript-mode-hook
-	  (lambda () (flymake-mode t)))
+					(lambda () (flymake-mode t)))
 
 ;; Turns on flymake for all files which have a flymake mode
-;; (add-hook 'find-file-hook 'flymake-find-file-hook)
+(add-hook 'find-file-hook 'flymake-find-file-hook)
 
 ;; Javascript (js2)  Mode
 ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
@@ -196,8 +208,8 @@
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 (autoload 'haml-mode "haml-mode" nil t)
 (add-hook 'haml-mode-hook
-		  '(lambda ()
-			 (setq haml-indent-offset 2)))
+					'(lambda ()
+						 (setq haml-indent-offset 2)))
 
 ;; Markdown Mode
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
@@ -212,12 +224,12 @@
 
 ;; Tabs in HTML Mode
 (add-hook 'html-mode-hook
-		  (lambda ()
-			(setq sgml-basic-offset 2)
-			(setq indent-tabs-mode nil)
-			(tidy-build-menu html-mode-map)
-			(local-set-key (kbd "C-x t") 'tidy-buffer)
-			(setq sgml-validate-command "tidy")))
+					(lambda ()
+						(setq sgml-basic-offset 2)
+						(setq indent-tabs-mode nil)
+						(tidy-build-menu html-mode-map)
+						(local-set-key (kbd "C-x t") 'tidy-buffer)
+						(setq sgml-validate-command "tidy")))
 
 ;; HTML Helper Mode
 (autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
@@ -233,7 +245,7 @@
 
 ;; YASnippets
 (add-to-list 'load-path
-			 "~/.emacs.d/plugins/yasnippet")
+						 "~/.emacs.d/plugins/yasnippet")
 (require 'yasnippet)
 (yas-global-mode 1)
 
@@ -242,16 +254,15 @@
 
 ;; Load snippets
 (setq yas-snippet-dirs
-	  '("~/.emacs.d/plugins/mysnippets"  ;; personal snippets
-		))
+			'("~/.emacs.d/plugins/mysnippets"  ;; personal snippets
+				))
 
 
-;;; lorem-ipsum.el ends here
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(ecb-auto-update-methods-after-save t)
  '(ecb-expand-methods-switch-off-auto-expand t)
  '(face-font-family-alternatives (quote (("Menlo" "Monospace" "courier" "fixed") ("courier" "CMU Typewriter Text" "fixed") ("Sans Serif" "helv" "helvetica" "arial" "fixed") ("helv" "helvetica" "arial" "fixed"))))
@@ -262,9 +273,9 @@
  '(tool-bar-mode nil)
  '(whitespace-space (quote whitespace-space)))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
 (put 'scroll-left 'disabled nil)
