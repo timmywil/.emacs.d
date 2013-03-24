@@ -263,6 +263,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
  '(ecb-auto-update-methods-after-save t)
  '(ecb-expand-methods-switch-off-auto-expand t)
  '(face-font-family-alternatives (quote (("Menlo" "Monospace" "courier" "fixed") ("courier" "CMU Typewriter Text" "fixed") ("Sans Serif" "helv" "helvetica" "arial" "fixed") ("helv" "helvetica" "arial" "fixed"))))
@@ -277,5 +278,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(cursor ((t (:background "gray80"))))
+ '(highlight ((t (:background "SkyBlue3"))))
+ '(lazy-highlight ((t (:background "dark cyan"))))
+ '(magit-log-graph ((t (:background "gray18" :foreground "white")))))
 (put 'scroll-left 'disabled nil)
