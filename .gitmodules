@@ -3,7 +3,7 @@
 	url = https://github.com/capitaomorte/yasnippet
 [submodule "plugins/jshint-mode"]
 	path = plugins/jshint-mode
-	url = https://github.com/daleharvey/jshint-mode
+	url = git@github.com:timmywil/jshint-mode.git
 [submodule "plugins/magit"]
 	path = plugins/magit
 	url = git@github.com:magit/magit.git

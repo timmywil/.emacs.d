@@ -157,16 +157,11 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
+;; Use hippie expand
+(global-set-key (kbd "M-/") 'hippie-expand)
+
 
 ;;; Modes
-
-;; Autocomplete
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/ac-dict")
-(ac-config-default)
-(define-key ac-complete-mode-map (kbd "M-/") 'ac-complete)
-(define-key ac-complete-mode-map "\t" nil)
-(define-key ac-complete-mode-map "\r" nil)
 
 ;; For the sake of flymake (copy appropriate bin directories here)
 (setq exec-path
@@ -278,6 +273,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#111111" :foreground "#fafafa" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "apple" :family "Monaco"))))
  '(cursor ((t (:background "gray80"))))
  '(highlight ((t (:background "SkyBlue3"))))
  '(lazy-highlight ((t (:background "dark cyan"))))
