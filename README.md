@@ -1,3 +1,18 @@
+Installation
+----------------------------
+Add a symbolic link to the .emacs in this repo to your home directory (after removing any existing .emacs file):
+
+```bash
+ln -s ~/.emacs.d/.emacs ~/.emacs
+```
+
+Also, install all submodules:
+
+```bash
+git submodule update --init --recursive
+```
+
+
 Useful commands
 -----------------------------
 
