@@ -4,3 +4,6 @@
 [submodule "plugins/jshint-mode"]
 	path = plugins/jshint-mode
 	url = https://github.com/daleharvey/jshint-mode
+[submodule "plugins/magit"]
+	path = plugins/magit
+	url = git@github.com:magit/magit.git
